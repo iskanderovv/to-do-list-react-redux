@@ -23,6 +23,8 @@ export default function FilterToDo({ filter, setFilter }) {
           <MenuItem value="all">All</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
           <MenuItem value="uncompleted">Uncompleted</MenuItem>
+          <MenuItem value="asc">A-Z</MenuItem>
+          <MenuItem value="desc">Z-A</MenuItem>
         </Select>
       </FormControl>
     </Box>

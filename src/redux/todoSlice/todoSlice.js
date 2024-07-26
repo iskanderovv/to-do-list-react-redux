@@ -11,7 +11,7 @@ const saveTodosToLocalStorage = (todos) => {
 
 const initialState = {
   todos: loadTodosFromLocalStorage(),
-  filter: '',
+  filter: "",
 };
 
 const todoSlice = createSlice({
@@ -47,11 +47,24 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addTodo, removeTodo, complatedTodo, editTodo, setFilter } = todoSlice.actions;
 export const selectFilteredTodos = (state) => {
   const { todos, filter } = state.todos;
-  if (filter === 'completed') return todos.filter(todo => todo.completed);
-  if (filter === 'uncompleted') return todos.filter(todo => !todo.completed);
-  return todos;
+
+  let filteredTodos = [...todos];
+
+  if (filter === "completed") {
+    filteredTodos = todos.filter((todo) => todo.completed);
+  } else if (filter === "uncompleted") {
+    filteredTodos = todos.filter((todo) => !todo.completed);
+  } else if (filter === "asc") {
+    filteredTodos = filteredTodos.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (filter === "desc") {
+    filteredTodos = filteredTodos.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  return filteredTodos;
 };
+
+export const { addTodo, removeTodo, complatedTodo, editTodo, setFilter } =
+  todoSlice.actions;
 export const { reducer } = todoSlice;
