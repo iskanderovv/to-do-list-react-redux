@@ -7,6 +7,7 @@ const AddToDo = () => {
   const dispatch = useDispatch();
   const toDoValue = useRef(null);
 
+
   const handleSubmit = (e) => {
     
     e.preventDefault();
@@ -18,7 +19,7 @@ const AddToDo = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='flex gap-4 w-full my-8 px-1'>
+    <form onSubmit={handleSubmit} className='flex gap-4 w-full my-5 px-1'>
       <TextField
         inputRef={toDoValue}
         className='w-full'

@@ -11,6 +11,7 @@ const saveTodosToLocalStorage = (todos) => {
 
 const initialState = {
   todos: loadTodosFromLocalStorage(),
+  filter: '',
 };
 
 const todoSlice = createSlice({
@@ -40,8 +41,17 @@ const todoSlice = createSlice({
         saveTodosToLocalStorage(state.todos);
       }
     },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
-export const { addTodo, removeTodo, complatedTodo, editTodo } = todoSlice.actions;
+export const { addTodo, removeTodo, complatedTodo, editTodo, setFilter } = todoSlice.actions;
+export const selectFilteredTodos = (state) => {
+  const { todos, filter } = state.todos;
+  if (filter === 'completed') return todos.filter(todo => todo.completed);
+  if (filter === 'uncompleted') return todos.filter(todo => !todo.completed);
+  return todos;
+};
 export const { reducer } = todoSlice;

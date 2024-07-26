@@ -4,12 +4,14 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Fab } from '@mui/material';
-import { removeTodo, editTodo, complatedTodo } from "../../redux/todoSlice/todoSlice";
+import { removeTodo, editTodo, complatedTodo, setFilter, selectFilteredTodos } from "../../redux/todoSlice/todoSlice";
 import EditToDo from "../edit-to-do/EditToDo";
+import FilterToDo from '../filter-to-do/FilterToDo';
 
 const ToDoList = () => {
   const dispatch = useDispatch();
-  const { todos } = useSelector((state) => state.todos);
+  const todos = useSelector(selectFilteredTodos);
+  const filter = useSelector((state) => state.todos.filter);
 
   const getFormattedDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -24,6 +26,7 @@ const ToDoList = () => {
 
   return (
     <div className='w-full max-h-[400px] overflow-y-auto py-1 px-1'>
+      <FilterToDo filter={filter} setFilter={(value) => dispatch(setFilter(value))} />
       <Box sx={{ width: '100%' }}>
         <Stack
           direction="column"
