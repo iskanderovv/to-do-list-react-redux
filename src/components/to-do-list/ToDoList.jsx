@@ -25,60 +25,65 @@ const ToDoList = () => {
   };
 
   return (
-    <div className='w-full max-h-[400px] overflow-y-auto py-1 px-1'>
-      <FilterToDo filter={filter} setFilter={(value) => dispatch(setFilter(value))} />
-      <Box sx={{ width: '100%' }}>
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-        >
-          {todos.map((todo) => (
-            <div
-              className={`shadow-itemSh w-full rounded-lg flex justify-between items-center px-3 py-[5px] ${todo.completed ? 'opacity-50' : ''}`}
-              key={todo.id}
+    <>
+      {todos.length === 0 ? <p className='text-center text-xl flex items-center h-full'>No todos yet :) </p> : (
+        <div className='w-full max-h-[400px] overflow-y-auto py-1 px-1'>
+          <FilterToDo filter={filter} setFilter={(value) => dispatch(setFilter(value))} />
+          <Box sx={{ width: '100%' }}>
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
             >
-              <span>{todo.name}</span>
-              <Stack
-                direction="row"
-                spacing={2}
-                alignItems="center"
-              >
-                <span>{getFormattedDate(todo.id)}</span>
-                <Fab
-                  onClick={() => dispatch(complatedTodo(todo.id))}
-                  size="small"
-                  color={todo.completed ? "default" : "success"}
-                  aria-label="complete"
+              {todos.map((todo) => (
+                <div
+                  className={`shadow-itemSh w-full rounded-lg flex justify-between items-center px-3 py-[5px] ${todo.completed ? 'opacity-50' : ''}`}
+                  key={todo.id}
                 >
-                  <BiCheck className="text-2xl" />
-                </Fab>
-                <EditToDo todoName={todo.name} onSave={(newName) => handleEditSave(todo.id, newName)}>
-                  <Fab
-                    disabled={todo.completed}
-                    size="small"
-                    color="secondary"
-                    aria-label="edit"
+                  <span>{todo.name}</span>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    alignItems="center"
                   >
-                    <BiEditAlt className="text-xl" />
-                  </Fab>
-                </EditToDo>
-                <Fab
-                  disabled={todo.completed}
-                  onClick={() => dispatch(removeTodo(todo.id))}
-                  size="small"
-                  color="error"
-                  aria-label="delete"
-                >
-                  <MdOutlineDeleteOutline className="text-2xl" />
-                </Fab>
-              </Stack>
-            </div>
-          ))}
-        </Stack>
-      </Box>
-    </div>
+                    <span>{getFormattedDate(todo.id)}</span>
+                    <Fab
+                      onClick={() => dispatch(complatedTodo(todo.id))}
+                      size="small"
+                      color={todo.completed ? "default" : "success"}
+                      aria-label="complete"
+                    >
+                      <BiCheck className="text-2xl" />
+                    </Fab>
+                    <EditToDo todoName={todo.name} onSave={(newName) => handleEditSave(todo.id, newName)}>
+                      <Fab
+                        disabled={todo.completed}
+                        size="small"
+                        color="secondary"
+                        aria-label="edit"
+                      >
+                        <BiEditAlt className="text-xl" />
+                      </Fab>
+                    </EditToDo>
+                    <Fab
+                      disabled={todo.completed}
+                      onClick={() => dispatch(removeTodo(todo.id))}
+                      size="small"
+                      color="error"
+                      aria-label="delete"
+                    >
+                      <MdOutlineDeleteOutline className="text-2xl" />
+                    </Fab>
+                  </Stack>
+                </div>
+              ))}
+            </Stack>
+          </Box>
+        </div>
+      )}
+    </>
+
   );
 };
 
