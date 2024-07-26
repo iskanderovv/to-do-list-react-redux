@@ -1,15 +1,10 @@
-import { MdEditNote } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-import { BiEditAlt } from "react-icons/bi";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import { BiPlus } from "react-icons/bi";
+import { BiCheck, BiEditAlt } from "react-icons/bi";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import { Fab } from '@mui/material';
-import { removeTodo, editTodo } from "../../redux/todoSlice/todoSlice";
+import { removeTodo, editTodo, complatedTodo } from "../../redux/todoSlice/todoSlice";
 import EditToDo from "../edit-to-do/EditToDo";
 
 const ToDoList = () => {
@@ -18,18 +13,9 @@ const ToDoList = () => {
 
   const getFormattedDate = (timestamp) => {
     const date = new Date(timestamp);
-
     const pad = (num) => num.toString().padStart(2, '0');
 
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
-
-    const day = pad(date.getDate());
-    const month = pad(date.getMonth() + 1);
-    const year = date.getFullYear();
-
-    return `${hours}:${minutes}:${seconds} ${month}/${day}/${year}`;
+    return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${pad(date.getMonth() + 1)}/${pad(date.getDate())}/${date.getFullYear()}`;
   };
 
   const handleEditSave = (id, newTodoName) => {
@@ -46,13 +32,8 @@ const ToDoList = () => {
           spacing={2}
         >
           {todos.map((todo) => (
-            <div className="shadow-itemSh w-full rounded-lg flex justify-between items-center px-3 py-[5px]"
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
-              }}
+            <div
+              className={`shadow-itemSh w-full rounded-lg flex justify-between items-center px-3 py-[5px] ${todo.completed ? 'opacity-50' : ''}`}
               key={todo.id}
             >
               <span>{todo.name}</span>
@@ -62,8 +43,17 @@ const ToDoList = () => {
                 alignItems="center"
               >
                 <span>{getFormattedDate(todo.id)}</span>
+                <Fab
+                  onClick={() => dispatch(complatedTodo(todo.id))}
+                  size="small"
+                  color={todo.completed ? "default" : "success"}
+                  aria-label="complete"
+                >
+                  <BiCheck className="text-2xl" />
+                </Fab>
                 <EditToDo todoName={todo.name} onSave={(newName) => handleEditSave(todo.id, newName)}>
                   <Fab
+                    disabled={todo.completed}
                     size="small"
                     color="secondary"
                     aria-label="edit"
@@ -72,6 +62,7 @@ const ToDoList = () => {
                   </Fab>
                 </EditToDo>
                 <Fab
+                  disabled={todo.completed}
                   onClick={() => dispatch(removeTodo(todo.id))}
                   size="small"
                   color="error"

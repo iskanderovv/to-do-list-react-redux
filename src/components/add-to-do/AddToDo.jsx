@@ -28,7 +28,7 @@ const AddToDo = () => {
         size='small'
         required
       />
-      <Button type='submit' variant="contained" sx={{ px: '20px' }}>Add</Button>
+      <Button type='submit' className='text-nowrap' variant="contained">Add To Do</Button>
     </form>
   );
 };
