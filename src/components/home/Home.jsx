@@ -1,5 +1,4 @@
 import AddToDo from "../add-to-do/AddToDo"
-import FilterToDo from "../filter-to-do/FilterToDo"
 import ToDoList from "../to-do-list/ToDoList"
 
 const Home = () => {
